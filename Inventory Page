@@ -1,0 +1,23 @@
+import { Page } from '@playwright/test';
+
+export class InventoryPage {
+  constructor(private page: Page) {}
+
+  async addFirstTwoItems() {
+    await this.page.locator('.inventory_item button').nth(0).click();
+    await this.page.locator('.inventory_item button').nth(1).click();
+  }
+
+  async openCart() {
+    await this.page.click('.shopping_cart_link');
+  }
+
+  async sortHighToLow() {
+    await this.page.selectOption('.product_sort_container', 'hilo');
+  }
+
+  async getFirstItemPrice() {
+    const priceText = await this.page.locator('.inventory_item_price').first().textContent();
+    return parseFloat(priceText!.replace('$', ''));
+  }
+}
